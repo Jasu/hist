@@ -5,6 +5,11 @@ recently visited directories by frecency.
 
 Has a frontend that uses [Rofi](https://github.com/davatorium/rofi):
 
+Licenced under CC0 - **but be warned - TDB, which this depends on,
+is licensed under LGPL.**
+
+[![License: CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
+
 ## Limitations
 
 Since this is a work-in-extremely-slow progress and rather
