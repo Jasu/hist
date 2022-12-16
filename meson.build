@@ -1,4 +1,4 @@
-project('hist', 'c')
+project('hist', 'c', default_options: ['c_std=c2x'])
 
 add_project_link_arguments(
   '-fno-pie',
@@ -7,64 +7,63 @@ add_project_link_arguments(
   '-Wl,--no-pie',
   '-fno-plt',
 
-  '-march=tigerlake',
-  '-Wl,--discard-all',
-
   '-fuse-ld=lld',
-  # '-Wl,-Bsymbolic',
-
-  # '-Xlinker,--warn-undefined-symbols',
-  # '-Wl,-z,notext,-z,ifunc-noplt',
 
   '-rtlib=compiler-rt',
   '-Wl,--pack-dyn-relocs=relr',
-  # '-Wl,-z,relro,-z,now',
   '-Wl,--strip-all',
   '-Wl,--gc-sections',
-  '-fno-common',
-
-
-  '-unwindlib=libunwind',
+  '-unwindlib=none',
   language: 'c')
 
 add_project_arguments(
-  '-fno-stack-protector',
 
-  # '-rtlib=compiler-rt',
-  # '-print-libgcc-file-name',
-  # 'static-pie",
+  # Linker-related, specifically symbol and section visibility.
+  '-fvisibility=hidden',
+  '-fno-direct-access-external-data',
+  '-fno-semantic-interposition',
+  '-fno-common',
 
+  # Huge dump of flags, to work around an ongoing compiler flag change in
+  # Clang/LLVM and various OS vendor patches undoing the changes.
   '-fno-pic',
-  '-no-pie',
   '-fno-pie',
   '-fno-PIE',
   '-fno-plt',
+  '-ftls-model=local-exec',
+  # Note: this should be changed if TLS is not local exec
+  '-fno-threadsafe-statics',
 
-  '-unwindlib=libunwind',
+  # Keep in sync with linker arguments.
+  # Also, these are dependent on linking with LLD, at least for now
+  '-fno-unwind-tables',
+  '-fno-asynchronous-unwind-tables',
+
+  '-fmerge-all-constants',
+
+  # Unrolling made at least XXHash slower on Clang 13 and TigerLake
+  '-fno-unroll-loops',
+
+  '-fno-stack-protector',
+  '-ffinite-loops',
+
+  '-fstrict-enums',
+  '-fstrict-overflow',
+  '-fstrict-return',
 
   '-fapprox-func',
   '-fassociative-math',
   '-ffast-math',
   '-ffp-contract=fast',
   '-fno-signed-zeros',
-  '-fno-trapping-math',
   '-fno-math-errno',
   '-ffp-exception-behavior=ignore',
   '-funsafe-math-optimizations',
   '-freciprocal-math',
+  '-ffinite-math-only',
   '-fno-honor-nans',
   '-fno-honor-infinities',
-  '-ffinite-math-only',
 
-  '-ffinite-loops',
-
-  '-fno-threadsafe-statics',
-
-  '-fdirect-access-external-data',
-  '-fno-semantic-interposition',
-  '-fno-common',
-  '-march=tigerlake',
-  '-msse4.2',
   language: 'c')
 
 cc = meson.get_compiler('c')

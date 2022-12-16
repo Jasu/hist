@@ -15,11 +15,16 @@
 #define HIST_CHECK(COND, ...) if (HIST_UNLIKELY(!(COND))) { HIST_FAIL(__VA_ARGS__); }
 #define HIST_INLINE __attribute__((always_inline)) inline static
 #define HIST_NOINLINE __attribute__((noinline))
-#define HIST_NORETURN _Noreturn
+#define HIST_NORETURN _Noreturn __attribute__((cold))
 #define HIST_NODISC __attribute__((warn_unused_result))
 #define HIST_NODISC_PTR __attribute__((warn_unused_result,returns_nonnull))
 #define HIST_NONNULL __attribute__((nonnull))
 #define HIST_UNUSED __attribute__((unused))
+#define HIST_PURE __attribute__((pure))
+#define HIST_CONST __attribute__((const))
+#define HIST_COLD __attribute__((cold))
+#define HIST_NOESCAPE __attribute__((noescape))
+#define HIST_ALIGNED_16 __attribute__((assume_aligned (16)))
 
 #define HIST_NUM_BUCKETS 4
 

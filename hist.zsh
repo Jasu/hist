@@ -1,3 +1,6 @@
+# NOTE: This requires an external menu application.
+#       See instructions in README.md
+#
 # ZSTYLE CONFIGURATION:
 #   GLOBAL:
 #     :hist hist_bin     - Path to the hist binary.
@@ -31,8 +34,6 @@ _hist_put_pwd() {
             return 0
         fi
     done
-
-    # echo "Putting $dir"
     _hist_run put "$dir"
 }
 
@@ -52,7 +53,7 @@ _hist_menu() {
     fi
 
     if [[ $markup = yes ]]; then
-        cmd+="|sed -E 's#^$HOME\$#<span weight=\"bold\" color=\"\\#F0FF77\">~</span>#'"
+        cmd+="|sed -E 's#^$home\$#<span weight=\"bold\" color=\"\\#F0FF77\">~</span>#'"
         cmd+="|sed -E 's#([^/>]+)\$#<span weight=\"bold\" color=\"\\#F0FF77\">\\1</span>#'"
     fi
     if zstyle -T :hist:$context shorten_home; then
@@ -75,8 +76,12 @@ hist-cd() {
     cd "${result/\~/$HOME}"
     zle -I
     _hist_put_pwd
-    _p9k_fetch_cwd
-    _p9k_set_prompt
+    # Have to use a private API here, otherwise the directory
+    # in the prompt won't change.
+    if whence _p9k_fetch_cwd >/dev/null; then
+        _p9k_fetch_cwd
+        _p9k_set_prompt
+    fi
     zle reset-prompt
     zle -R
 }
@@ -84,5 +89,5 @@ zle -N hist-cd
 
 add-zsh-hook chpwd _hist_put_pwd
 
+# Note: this is hardcoded in the binary too
 mkdir -p "$HOME/.local/share/hist"
-
