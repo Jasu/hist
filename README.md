@@ -5,6 +5,8 @@ recently visited directories by frecency.
 
 Has a frontend that uses [Rofi](https://github.com/davatorium/rofi):
 
+![Rofi frontend searching through history](https://raw.githubusercontent.com/Jasu/hist/main/misc/rofi_hist_screenshot.png)
+
 Licenced under CC0 - **but be warned - TDB, which this depends on,
 is licensed under LGPL.**
 
@@ -72,12 +74,12 @@ tried.
 
   0. Clone this repository.
   1. Install dependenciese:
-    - `clang`,
-    - `lld` (LLVM's linker - this might come with Clang on some distributions).
-    - `meson` and `ninja`,
-    - `tdb`
-    - `xxhash`
-    - `rofi`
+      - `clang`,
+      - `lld` (LLVM's linker - this might come with Clang on some distributions).
+      - `meson` and `ninja`,
+      - `tdb`
+      - `xxhash`
+      - `rofi`
   2. Create a `build` directory under the repository root, and enter it:
     ```
     mkdir build
